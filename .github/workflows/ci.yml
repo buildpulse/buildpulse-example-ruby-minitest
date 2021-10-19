@@ -1,0 +1,20 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+
+    - name: Build and test with Rake
+      run: |
+        gem install bundler
+        bundle install --jobs=4 --retry=3 --path vendor/bundle
+        bundle exec rake
