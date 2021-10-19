@@ -18,3 +18,13 @@ jobs:
         gem install bundler
         bundle install --jobs=4 --retry=3 --path vendor/bundle
         bundle exec rake
+
+    - name: Upload test results to BuildPulse for flaky test detection
+      if: '!cancelled()' # Run this step even when the tests fail. Skip if the workflow is cancelled.
+      uses: Workshop64/buildpulse-action@main
+      with:
+        account: 68192324 # Replace this value with your BuildPulse account ID
+        repository: 248515673 # Replace this value with your BuildPulse repository ID
+        path: test/reports
+        key: ${{ secrets.BUILDPULSE_ACCESS_KEY_ID }}
+        secret: ${{ secrets.BUILDPULSE_SECRET_ACCESS_KEY }}
