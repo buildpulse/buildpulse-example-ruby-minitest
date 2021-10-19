@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  buildpulse: workshop64/buildpulse@0.8
+
 jobs:
   build:
     docker:
@@ -17,3 +20,8 @@ jobs:
       - run:
           name: Run tests
           command: bundle exec rake
+
+      - buildpulse/upload:
+          path: test/reports
+          account-id: 68192324 # Replace this value with your BuildPulse account ID
+          repository-id: 248515673 # Replace this value with your BuildPulse repository ID
